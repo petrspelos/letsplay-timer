@@ -7,12 +7,7 @@ namespace LetsPlayTimer.Views;
 
 public partial class MainWindow : Window
 {
-    private readonly TimerService _timerService = new(new TimerConfiguration(
-        TimeSpan.FromSeconds(5),
-        "Assets/ui-warn.wav",
-        TimeSpan.FromSeconds(10),
-        "Assets/ui-end.wav"
-    ));
+    private readonly TimerService _timerService = new();
 
     public MainWindow()
     {
@@ -21,11 +16,20 @@ public partial class MainWindow : Window
 
     public void OnStartClick(object sender, RoutedEventArgs args)
     {
-        _timerService.Start();
+        StartTimerBtn.IsEnabled = false;
+        StopTimerBtn.IsEnabled = true;
+        _timerService.Start(new TimerConfiguration(
+            TimeSpan.FromSeconds((double)(WarnInSecondsNumeric.Value ?? 0)),
+            "Assets/ui-warn.wav",
+            TimeSpan.FromSeconds((double)(EndInSecondsNumeric.Value ?? 0)),
+            "Assets/ui-end.wav"
+        ));
     }
 
     public void OnStopClick(object sender, RoutedEventArgs args)
     {
+        StartTimerBtn.IsEnabled = true;
+        StopTimerBtn.IsEnabled = false;
         _timerService.Stop();
     }
 }

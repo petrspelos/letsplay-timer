@@ -17,16 +17,31 @@
 
     <StackPanel>
         <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button Click="OnStartClick"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center">
-            Start Timer
-        </Button>
-        <Button Click="OnStopClick"
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center">
-            Stop Timer
-        </Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Margin="20">
+                <TextBlock Margin="0 5">Warn at (seconds):</TextBlock>
+                <NumericUpDown Value="5" x:Name="WarnInSecondsNumeric" />
+            </StackPanel>
+            <StackPanel Margin="20">
+                <TextBlock Margin="0 5">End at (seconds):</TextBlock>
+                <NumericUpDown Value="10" x:Name="EndInSecondsNumeric" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+            <Button x:Name="StartTimerBtn"
+            Click="OnStartClick"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+                Start Timer
+            </Button>
+            <Button x:Name="StopTimerBtn"
+            Click="OnStopClick"
+            IsEnabled="false"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+                Stop Timer
+            </Button>
+        </StackPanel>
     </StackPanel>
 
 

@@ -17,17 +17,19 @@ internal record struct TimerConfiguration(
     string EndSoundFile
 );
 
-internal sealed class TimerService(TimerConfiguration config)
+internal sealed class TimerService
 {
+    private TimerConfiguration _config;
     private Task? _runningTask;
     private CancellationTokenSource _cancellationTokenSource = new();
     private MiniAudioEngine? _engine;
     private AudioPlaybackDevice? _playbackDevice;
     private SoundPlayer? _player;
 
-    internal void Start()
+    internal void Start(TimerConfiguration config)
     {
         Stop();
+        _config = config;
         _runningTask = RunTimerAsync(_cancellationTokenSource.Token);
     }
 
@@ -45,10 +47,10 @@ internal sealed class TimerService(TimerConfiguration config)
     {
         do
         {
-            await Task.Delay(config.WarnAt, cancellationToken);
-            PlaySound(config.WarnSoundFile);
-            await Task.Delay(config.EndAt - config.WarnAt, cancellationToken);
-            PlaySound(config.EndSoundFile);
+            await Task.Delay(_config.WarnAt, cancellationToken);
+            PlaySound(_config.WarnSoundFile);
+            await Task.Delay(_config.EndAt - _config.WarnAt, cancellationToken);
+            PlaySound(_config.EndSoundFile);
         }
         while(!cancellationToken.IsCancellationRequested);
     }
